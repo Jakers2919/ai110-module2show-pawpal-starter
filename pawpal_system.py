@@ -14,7 +14,7 @@ class Task:
 
     def mark_complete(self):
         """Mark this task as completed."""
-        pass
+        self.completed = True
 
 
 @dataclass
@@ -26,11 +26,11 @@ class Pet:
 
     def add_task(self, task: Task):
         """Add a care task to this pet."""
-        pass
+        self.tasks.append(task)
 
     def get_tasks(self):
-        """Return the pet's tasks."""
-        pass
+        """Return all tasks for this pet."""
+        return self.tasks
 
 
 class Owner:
@@ -42,11 +42,16 @@ class Owner:
 
     def add_pet(self, pet: Pet):
         """Add a pet to the owner."""
-        pass
+        self.pets.append(pet)
 
     def get_all_tasks(self):
-        """Get tasks from all owned pets."""
-        pass
+        """Return tasks from all owned pets."""
+        all_tasks = []
+
+        for pet in self.pets:
+            all_tasks.extend(pet.get_tasks())
+
+        return all_tasks
 
 
 class Scheduler:
@@ -56,21 +61,45 @@ class Scheduler:
         self.available_minutes = available_minutes
 
     def generate_daily_plan(self, owner: Owner):
-        """Build a daily care schedule."""
-        pass
+        """Create a daily plan based on priority and available time."""
+        tasks = self.filter_tasks(owner.get_all_tasks())
+
+        priority_order = {
+            "high": 0,
+            "medium": 1,
+            "low": 2
+        }
+
+        tasks = sorted(
+            tasks,
+            key=lambda task: (
+                priority_order.get(task.priority.lower(), 3),
+                task.scheduled_time
+            )
+        )
+
+        daily_plan = []
+        minutes_used = 0
+
+        for task in tasks:
+            if minutes_used + task.duration_minutes <= self.available_minutes:
+                daily_plan.append(task)
+                minutes_used += task.duration_minutes
+
+        return daily_plan
 
     def sort_by_time(self, tasks):
         """Sort tasks by their scheduled times."""
-        pass
+        return sorted(tasks, key=lambda task: task.scheduled_time)
 
     def filter_tasks(self, tasks):
-        """Filter tasks based on scheduling constraints."""
-        pass
+        """Remove completed tasks from the schedule."""
+        return [task for task in tasks if not task.completed]
 
     def detect_conflicts(self, tasks):
-        """Identify overlapping tasks."""
-        pass
+        """Placeholder for conflict detection in Phase 4."""
+        return []
 
     def handle_recurring_tasks(self, tasks):
-        """Handle daily and weekly recurring tasks."""
-        pass
+        """Placeholder for recurring tasks in Phase 4."""
+        return []
