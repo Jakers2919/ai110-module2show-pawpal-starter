@@ -1,71 +1,68 @@
+
 # PawPal+ Project Reflection
 
 ## 1. System Design
 
-**a. Initial design**
+### a. Initial design
 
-- Briefly describe your initial UML design.
-- What classes did you include, and what responsibilities did you assign to each?
+My initial design for PawPal+ includes four main classes: Owner, Pet, Task, and Scheduler. I wanted to keep the system simple so each class has its own responsibility.
 
-**b. Design changes**
+The Owner class manages the user's pets. The Pet class stores information about each pet and the tasks assigned to it. The Task class keeps track of activities like feeding, walking, and grooming, including their scheduled times and whether they are completed. The Scheduler class organizes the tasks and helps the owner see what needs to be done.
 
-- Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+The three main actions I want users to perform are adding a pet, scheduling a task, and viewing their daily schedule. I think separating these responsibilities will make the code easier to understand and update.
+
+### b. Design changes
+
+To be completed after implementing the classes and reviewing the design.
 
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
 
-**a. Constraints and priorities**
+### a. Constraints and priorities
 
-- What constraints does your scheduler consider (for example: time, priority, preferences)?
-- How did you decide which constraints mattered most?
+To be completed during Phase 4 after implementing the scheduling logic.
 
-**b. Tradeoffs**
+### b. Tradeoffs
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
+To be completed during Phase 4 after evaluating the scheduling algorithms.
 
 ---
 
 ## 3. AI Collaboration
 
-**a. How you used AI**
+### a. How you used AI
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
-- What kinds of prompts or questions were most helpful?
+To be completed as I use AI to design, implement, and test the project.
 
-**b. Judgment and verification**
+### b. Judgment and verification
 
-- Describe one moment where you did not accept an AI suggestion as-is.
-- How did you evaluate or verify what the AI suggested?
+To be completed after reviewing and evaluating an AI suggestion.
 
 ---
 
 ## 4. Testing and Verification
 
-**a. What you tested**
+### a. What you tested
 
-- What behaviors did you test?
-- Why were these tests important?
+To be completed during Phase 5 after running the automated tests.
 
-**b. Confidence**
+### b. Confidence
 
-- How confident are you that your scheduler works correctly?
-- What edge cases would you test next if you had more time?
+To be completed after reviewing the test results.
 
 ---
 
 ## 5. Reflection
 
-**a. What went well**
+### a. What went well
 
-- What part of this project are you most satisfied with?
+To be completed after finishing the project.
 
-**b. What you would improve**
+### b. What you would improve
 
-- If you had another iteration, what would you improve or redesign?
+To be completed after evaluating the finished application.
 
-**c. Key takeaway**
+### c. Key takeaway
 
-- What is one important thing you learned about designing systems or working with AI on this project?
+To be completed after finishing the project.
