@@ -20,7 +20,7 @@ A busy pet owner needs help staying consistent with pet care. PawPal+ helps user
 - Prioritize important tasks when time is limited.
 - Display selected tasks in chronological order.
 - Skip completed tasks and tasks that exceed available time.
-- Detect overlapping tasks and display conflict warnings.
+- Detect overlapping tasks and record conflict warnings.
 - Support daily and weekly recurring tasks.
 - Use a Streamlit interface to manage pets and view schedules.
 
@@ -78,19 +78,32 @@ Run the automated tests using:
 python3 -m pytest
 ```
 
-Current test results:
+### Test Results
 
 ```text
-tests/test_pawpal.py .. [100%]
-2 passed in 0.02s
+tests/test_pawpal.py ....... [100%]
+7 passed in 0.04s
 ```
 
-The current tests verify that:
+All seven automated tests passed successfully.
 
-1. Marking a task complete updates its completion status.
-2. Adding a task to a pet increases the number of tasks.
+### What I Tested
 
-Additional tests for chronological sorting, recurring tasks, and conflict detection will be added during Phase 5.
+1. **Task completion:** Verified that marking a task complete updates its completion status.
+2. **Adding tasks:** Verified that adding a task to a pet increases the number of tasks.
+3. **Chronological sorting:** Verified that tasks are sorted by their scheduled times.
+4. **Recurring tasks:** Verified that completing a daily recurring task creates another task for the following day.
+5. **Conflict detection:** Verified that overlapping tasks are identified.
+6. **Available time:** Verified that tasks exceeding the available time are skipped.
+7. **Completed task filtering:** Verified that completed tasks do not appear in the daily schedule.
+
+### Confidence Level
+
+**4 out of 5 stars**
+
+I feel confident that the main scheduling features work because all seven automated tests passed. I also ran the CLI demonstration to check that the scheduler detects overlapping tasks, skips tasks when there is not enough time, and creates recurring tasks.
+
+If I had more time, I would add tests for weekly recurring tasks, invalid time inputs, and tasks that overlap across midnight.
 
 ## Smarter Scheduling
 
@@ -123,18 +136,4 @@ For recurring tasks, the scheduler creates a new task for the next day or week a
 4. Enter the amount of time available for pet care.
 5. Click **Generate Schedule** to create a daily plan.
 6. View the selected tasks in the schedule table.
-7. Use the CLI demonstration to see conflict detection, skipped-task explanations, and recurring-task creation.
-
-## Project Structure
-
-- `app.py` — Streamlit user interface.
-- `pawpal_system.py` — Main Python classes and scheduling algorithms.
-- `main.py` — Command-line demonstration.
-- `tests/test_pawpal.py` — Automated tests.
-- `diagrams/uml.mmd` — UML class diagram.
-- `reflection.md` — Project reflection and design decisions.
-- `ai_interactions.md` — Optional AI collaboration log for stretch features.
-
-## Future Improvements
-
-Future improvements could include automatically resolving overlapping tasks, more detailed owner preferences, and better recurring-task controls in the Streamlit interface.
+7. Use the CLI demonstration to see conflict detection, skipped-task explanations, and recurring-task creation

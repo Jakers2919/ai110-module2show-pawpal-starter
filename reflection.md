@@ -48,11 +48,17 @@ To be completed after reviewing and evaluating an AI suggestion.
 
 ### a. What you tested
 
-To be completed during Phase 5 after running the automated tests.
+I created seven automated tests to make sure the main features of PawPal+ work correctly. I tested adding tasks to pets, marking tasks as completed, sorting tasks by time, and making sure completed tasks are not included in the daily schedule.
+
+I also tested whether the scheduler respects the owner's available time, detects overlapping tasks, and creates a new task when a daily recurring task is completed.
+
+These tests were important because I wanted to make sure the schedule was accurate and that the app could handle common situations without errors. All seven tests passed.
 
 ### b. Confidence
 
-To be completed after reviewing the test results.
+I would rate my confidence in the scheduler a 4 out of 5. All seven automated tests passed, and the CLI demonstration successfully showed conflict detection, skipped tasks, and recurring tasks.
+
+I think the main features work well, but there are still some edge cases I could test. If I had more time, I would test weekly recurring tasks, invalid scheduled times, and tasks that overlap across midnight.
 
 ---
 
