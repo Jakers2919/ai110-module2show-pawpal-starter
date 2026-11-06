@@ -13,7 +13,7 @@ The three main actions I want users to perform are adding a pet, scheduling a ta
 
 ### b. Design changes
 
-To be completed after implementing the classes and reviewing the design.
+After reviewing my initial design with Codex, I decided to keep the same four classes because each one already has a clear responsibility. Codex suggested having the scheduler explain why certain tasks get skipped and adding basic owner preferences. I decided to include those features during implementation instead of making the design more complicated with extra classes.
 
 ---
 
