@@ -2,29 +2,33 @@
 import streamlit as st
 from pawpal_system import Owner, Pet, Task, Scheduler
 
-st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
+st.set_page_config(
+    page_title="PawPal+",
+    page_icon="🐾",
+    layout="centered"
+)
 
 st.title("🐾 PawPal+")
 st.write("Your personal pet care scheduling assistant.")
 
-# Keep the owner and pets saved between Streamlit reruns.
+# Save data between Streamlit reruns.
 if "owner" not in st.session_state:
     st.session_state.owner = Owner("Jordan")
 
 if "scheduler" not in st.session_state:
     st.session_state.scheduler = Scheduler(available_minutes=480)
 
+owner = st.session_state.owner
+scheduler = st.session_state.scheduler
+
+# Owner information
 st.subheader("Owner Information")
 
-owner_name = st.text_input(
-    "Owner name",
-    value=st.session_state.owner.name
-)
-
-st.session_state.owner.name = owner_name
+owner.name = st.text_input("Owner name", value=owner.name)
 
 st.divider()
 
+# Add pets
 st.subheader("Add a Pet")
 
 with st.form("add_pet_form"):
@@ -33,38 +37,34 @@ with st.form("add_pet_form"):
     add_pet = st.form_submit_button("Add Pet")
 
     if add_pet:
-        if pet_name.strip():
-            existing = any(
-                pet.name.lower() == pet_name.strip().lower()
-                for pet in st.session_state.owner.pets
-            )
-
-            if existing:
-                st.warning("A pet with that name already exists.")
-            else:
-                pet = Pet(name=pet_name.strip(), species=species)
-                st.session_state.owner.add_pet(pet)
-                st.success(f"{pet_name} was added!")
-        else:
+        if not pet_name.strip():
             st.warning("Please enter a pet name.")
+        elif any(
+            pet.name.lower() == pet_name.strip().lower()
+            for pet in owner.pets
+        ):
+            st.warning("A pet with that name already exists.")
+        else:
+            owner.add_pet(Pet(pet_name.strip(), species))
+            st.success(f"{pet_name} was added!")
 
-if st.session_state.owner.pets:
+if owner.pets:
     st.write("### Your Pets")
-
-    for pet in st.session_state.owner.pets:
+    for pet in owner.pets:
         st.write(f"🐾 {pet.name} ({pet.species})")
 else:
     st.info("No pets added yet.")
 
 st.divider()
 
+# Add tasks
 st.subheader("Schedule a Task")
 
-if st.session_state.owner.pets:
+if owner.pets:
     with st.form("add_task_form"):
         selected_pet = st.selectbox(
             "Choose a pet",
-            [pet.name for pet in st.session_state.owner.pets]
+            [pet.name for pet in owner.pets]
         )
 
         task_title = st.text_input("Task name")
@@ -91,7 +91,9 @@ if st.session_state.owner.pets:
         add_task = st.form_submit_button("Add Task")
 
         if add_task:
-            if task_title.strip():
+            if not task_title.strip():
+                st.warning("Please enter a task name.")
+            else:
                 task = Task(
                     title=task_title.strip(),
                     duration_minutes=int(duration),
@@ -100,19 +102,20 @@ if st.session_state.owner.pets:
                     frequency=frequency
                 )
 
-                for pet in st.session_state.owner.pets:
+                for pet in owner.pets:
                     if pet.name == selected_pet:
                         pet.add_task(task)
                         break
 
-                st.success(f"{task_title} added for {selected_pet}!")
-            else:
-                st.warning("Please enter a task name.")
+                st.success(
+                    f"{task_title} added for {selected_pet}!"
+                )
 else:
     st.info("Add a pet before scheduling tasks.")
 
 st.divider()
 
+# Daily schedule
 st.subheader("Today's Schedule")
 
 available_minutes = st.number_input(
@@ -123,11 +126,11 @@ available_minutes = st.number_input(
 )
 
 if st.button("Generate Schedule"):
-    st.session_state.scheduler.available_minutes = int(available_minutes)
+    scheduler.available_minutes = int(available_minutes)
+    st.session_state.show_schedule = True
 
-    daily_plan = st.session_state.scheduler.generate_daily_plan(
-        st.session_state.owner
-    )
+if st.session_state.get("show_schedule", False):
+    daily_plan = scheduler.generate_daily_plan(owner)
 
     if daily_plan:
         schedule_data = []
@@ -149,11 +152,58 @@ if st.button("Generate Schedule"):
         )
 
         st.write(f"Total tasks: {len(daily_plan)}")
-        st.write(f"Total scheduled time: {total_minutes} minutes")
-        st.caption(
-            "Tasks are selected by priority and available time. "
-            "Advanced conflict detection and recurring-task handling "
-            "will be added in Phase 4."
+        st.write(
+            f"Total scheduled time: {total_minutes} minutes"
         )
+
+        st.caption(
+            "Tasks are selected by priority and available time, "
+            "then displayed in chronological order."
+        )
+
+        # Conflict warnings
+        if scheduler.conflicts:
+            st.subheader("Scheduling Conflicts")
+
+            for first, second in scheduler.conflicts:
+                st.warning(
+                    f"{first.title} overlaps with {second.title}. "
+                    "Consider changing one of their times."
+                )
+        else:
+            st.success("No scheduling conflicts detected.")
+
+        # Mark tasks complete
+        st.subheader("Complete Tasks")
+
+        for index, task in enumerate(daily_plan):
+            if st.button(
+                f"Mark {task.title} at {task.scheduled_time} Complete",
+                key=f"complete_{id(task)}"
+            ):
+                task.mark_complete()
+
+                new_tasks = scheduler.handle_recurring_tasks(owner)
+
+                st.success(f"{task.title} marked complete!")
+
+                for new_task in new_tasks:
+                    st.info(
+                        f"Next {new_task.title} scheduled "
+                        f"for {new_task.due_date}."
+                    )
+
+                st.rerun()
     else:
-        st.warning("No tasks available to schedule.")
+        st.info("No tasks available to schedule today.")
+
+    # Explain skipped tasks
+    if scheduler.skipped_tasks:
+        st.subheader("Skipped Tasks")
+
+        for task, reason in scheduler.skipped_tasks:
+            st.warning(f"{task.title}: {reason}")
+
+st.divider()
+
+st.caption("PawPal+ | CodePath Module 2 Project")

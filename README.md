@@ -1,3 +1,4 @@
+
 # PawPal+ (Module 2 Project)
 
 PawPal+ is a pet care scheduling app built with Python and Streamlit. It helps pet owners organize daily activities like feeding, walking, grooming, and playtime.
@@ -20,9 +21,12 @@ A busy pet owner needs help staying consistent with pet care. PawPal+ helps user
 - Prioritize important tasks when time is limited.
 - Display selected tasks in chronological order.
 - Skip completed tasks and tasks that exceed available time.
-- Detect overlapping tasks and record conflict warnings.
+- Detect overlapping tasks and display conflict warnings.
 - Support daily and weekly recurring tasks.
-- Use a Streamlit interface to manage pets and view schedules.
+- Mark tasks complete through the Streamlit interface.
+- Create the next occurrence of completed recurring tasks.
+- Display skipped tasks and explain why they were skipped.
+- Manage pets and tasks using a Streamlit interface.
 
 ## Getting Started
 
@@ -43,10 +47,10 @@ python3 main.py
 ### Run the Streamlit App
 
 ```bash
-streamlit run app.py
+python3 -m streamlit run app.py
 ```
 
-The Streamlit app allows users to enter pet information, add care tasks, and generate a daily schedule. Advanced conflict warnings and recurring-task controls will be added to the interface during Phase 6.
+The Streamlit app allows users to add pets, schedule care tasks, and generate daily schedules. It also displays scheduling conflicts, explains skipped tasks, and provides buttons to mark tasks complete. Completed recurring tasks can create their next occurrence.
 
 ## Sample Output
 
@@ -80,12 +84,14 @@ python3 -m pytest
 
 ### Test Results
 
+The following results were recorded during Phase 5:
+
 ```text
 tests/test_pawpal.py ....... [100%]
 7 passed in 0.04s
 ```
 
-All seven automated tests passed successfully.
+All seven automated tests passed.
 
 ### What I Tested
 
@@ -102,6 +108,8 @@ All seven automated tests passed successfully.
 **4 out of 5 stars**
 
 I feel confident that the main scheduling features work because all seven automated tests passed. I also ran the CLI demonstration to check that the scheduler detects overlapping tasks, skips tasks when there is not enough time, and creates recurring tasks.
+
+I tested the Streamlit interface by adding a pet, scheduling two overlapping tasks, and generating a daily schedule. The app displayed both tasks and correctly warned that their times overlapped.
 
 If I had more time, I would add tests for weekly recurring tasks, invalid time inputs, and tasks that overlap across midnight.
 
@@ -128,12 +136,103 @@ When two tasks overlap, the scheduler records a conflict rather than automatical
 
 For recurring tasks, the scheduler creates a new task for the next day or week after the current task is completed and recurrence processing is run.
 
+## Streamlit Interface
+
+The Streamlit interface includes the following sections:
+
+### Owner Information
+
+Users can enter their name to personalize the application.
+
+### Add a Pet
+
+Users can add pets by entering a name and selecting a species. The app prevents duplicate pet names.
+
+### Schedule a Task
+
+Users can create tasks with:
+
+- Pet selection.
+- Task name.
+- Duration in minutes.
+- Priority (high, medium, or low).
+- Scheduled time.
+- Frequency (once, daily, or weekly).
+
+### Today's Schedule
+
+Users can enter their available time and generate a schedule.
+
+The app displays:
+
+- Scheduled tasks in chronological order.
+- Task durations, priorities, and frequencies.
+- Total scheduled tasks and minutes.
+- Warnings for overlapping tasks.
+- Explanations for skipped tasks.
+- Buttons to mark tasks complete.
+
 ## Demo Walkthrough
 
 1. Launch the Streamlit application.
-2. Enter the owner's name and add a pet.
-3. Add care tasks with durations, priorities, and scheduled times.
-4. Enter the amount of time available for pet care.
-5. Click **Generate Schedule** to create a daily plan.
-6. View the selected tasks in the schedule table.
-7. Use the CLI demonstration to see conflict detection, skipped-task explanations, and recurring-task creation
+2. Enter the owner's name.
+3. Add a pet named Mochi.
+4. Add a Morning walk task at 08:15 for 10 minutes.
+5. Add a Feeding task at 08:15 for 20 minutes.
+6. Set the available time to 480 minutes.
+7. Click **Generate Schedule**.
+8. View both tasks in the daily schedule.
+9. Check the Scheduling Conflicts section for the overlap warning.
+10. Use the task completion buttons to mark finished tasks.
+11. Use the CLI demonstration to see skipped-task explanations and recurring-task creation.
+
+### Example Conflict Warning
+
+```text
+Morning walk overlaps with Feeding.
+Consider changing one of their times.
+```
+
+This warning was successfully displayed during Streamlit testing.
+
+## Project Structure
+
+- `app.py` — Streamlit user interface.
+- `pawpal_system.py` — Main Python classes and scheduling algorithms.
+- `main.py` — Command-line demonstration.
+- `tests/test_pawpal.py` — Automated tests.
+- `diagrams/uml.mmd` — Initial UML class diagram.
+- `diagrams/uml_final.mmd` — Final UML class diagram showing the completed scheduling system.
+- `reflection.md` — Project reflection and design decisions.
+- `ai_interactions.md` — Optional AI collaboration log for stretch features.
+
+## Design Improvements
+
+The original UML diagram included four main classes: Owner, Pet, Task, and Scheduler.
+
+The final design kept these four classes while adding scheduling functionality.
+
+Important improvements include:
+
+- Due dates for tasks.
+- Priority-based scheduling.
+- Available-time limits.
+- Conflict detection.
+- Skipped-task explanations.
+- Daily and weekly recurrence handling.
+- Task completion tracking.
+
+Keeping the same four classes helped make the system easier to understand and maintain.
+
+## Future Improvements
+
+Future improvements could include:
+
+- Automatically resolving overlapping tasks.
+- More detailed owner preferences.
+- Editing and deleting existing tasks.
+- Saving pets and tasks permanently between application restarts.
+- More flexible recurring-task controls.
+- Additional tests for unusual scheduling situations.
+
+PawPal+ demonstrates how object-oriented programming, scheduling algorithms, automated testing, and a Streamlit interface can work together to create a practical pet care application.

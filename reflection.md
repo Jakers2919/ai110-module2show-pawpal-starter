@@ -12,7 +12,9 @@ The three main actions I want users to perform are adding a pet, scheduling a ta
 
 ### b. Design changes
 
-After reviewing my initial design with Codex, I decided to keep the same four classes because each one already has a clear responsibility. Codex suggested having the scheduler explain why certain tasks get skipped and adding basic owner preferences. I decided to include those features during implementation instead of making the design more complicated with extra classes.
+After reviewing my initial design with Codex, I decided to keep the same four classes because each one already has a clear responsibility. Codex suggested having the scheduler explain why certain tasks get skipped and adding basic owner preferences.
+
+I decided to focus on explaining skipped tasks and improving the scheduling logic instead of adding more classes or making the design too complicated. My final UML diagram shows the additional features while keeping the original class structure.
 
 ---
 
@@ -36,11 +38,21 @@ I think this makes sense because the main goal of PawPal+ is to help owners take
 
 ### a. How you used AI
 
-To be completed as I use AI to design, implement, and test the project.
+I used ChatGPT and Codex to help me design, build, and test PawPal+. At the beginning, I used AI to help organize my ideas and create a UML diagram showing how the four main classes would work together.
+
+During implementation, I used AI to help write the Python classes, connect the scheduling system to Streamlit, and improve the scheduling logic. It also helped me create automated tests and understand how to check whether the features were working correctly.
+
+I used Codex in VS Code to review my initial design and get suggestions for improvements. One suggestion was to make the scheduler explain why tasks were skipped, which I included in my final implementation.
 
 ### b. Judgment and verification
 
-To be completed after reviewing and evaluating an AI suggestion.
+I did not want to rely only on AI-generated code without checking whether it worked. After making changes, I ran the program and tested the features myself.
+
+For example, I used the CLI demonstration to check that the scheduler detected overlapping tasks, skipped tasks when there was not enough time, and created recurring tasks. I also ran seven automated tests, and all of them passed.
+
+I tested the Streamlit interface by adding a pet named Mochi and creating two tasks scheduled for the same time. The application displayed both tasks and correctly warned me that they overlapped.
+
+I also decided not to automatically change overlapping task times because I thought it would be better for the pet owner to make that decision. This helped me keep the application simple while still providing useful warnings.
 
 ---
 
@@ -54,6 +66,8 @@ I also tested whether the scheduler respects the owner's available time, detects
 
 These tests were important because I wanted to make sure the schedule was accurate and that the app could handle common situations without errors. All seven tests passed.
 
+I also tested the Streamlit application by adding a pet, creating overlapping tasks, and generating a schedule. The application successfully displayed the tasks and showed a scheduling conflict warning.
+
 ### b. Confidence
 
 I would rate my confidence in the scheduler a 4 out of 5. All seven automated tests passed, and the CLI demonstration successfully showed conflict detection, skipped tasks, and recurring tasks.
@@ -66,12 +80,24 @@ I think the main features work well, but there are still some edge cases I could
 
 ### a. What went well
 
-To be completed after finishing the project.
+One thing that went well was organizing the project into separate classes. Having Owner, Pet, Task, and Scheduler made it easier to understand what each part of the program was responsible for.
+
+I also think the scheduling logic turned out well. The program can prioritize important tasks, detect conflicts, and explain why certain tasks are skipped. I was happy that all seven automated tests passed and that I was able to connect the Python code to a working Streamlit interface.
+
+Another thing that went well was using AI to help troubleshoot and improve the project while checking the results myself.
 
 ### b. What you would improve
 
-To be completed after evaluating the finished application.
+If I had more time, I would add a way for users to edit or delete tasks directly in the Streamlit application. I would also improve the recurring-task system so users could manage future tasks more easily.
+
+Another improvement would be saving pets and tasks permanently. Right now, the app uses Streamlit session state, so the information can reset when the application restarts.
+
+I would also add more automated tests for unusual scheduling situations and improve how the app handles overlapping tasks.
 
 ### c. Key takeaway
 
-To be completed after finishing the project.
+My biggest takeaway from this project was learning how to turn an object-oriented design into a working application. I started with a UML diagram, built the Python classes, added scheduling features, and connected everything to a Streamlit interface.
+
+I also learned that AI can be useful for writing code, reviewing designs, and finding possible improvements, but it is still important to test the results instead of assuming everything works.
+
+Overall, this project helped me get more comfortable with Python, object-oriented programming, automated testing, and building an application with multiple connected parts.
