@@ -1,4 +1,3 @@
-
 # PawPal+ Project Reflection
 
 ## 1. System Design
@@ -21,11 +20,15 @@ After reviewing my initial design with Codex, I decided to keep the same four cl
 
 ### a. Constraints and priorities
 
-To be completed during Phase 4 after implementing the scheduling logic.
+My scheduler considers task priority, scheduled time, and how much time the owner has available. I made high-priority tasks come first because activities like feeding and walking are more important than optional tasks. The scheduler checks how long each task takes and skips tasks that would go over the available time.
+
+After selecting the tasks, it sorts them by their scheduled times so the daily plan is easier to follow. It also detects overlapping tasks and supports daily or weekly recurring tasks.
 
 ### b. Tradeoffs
 
-To be completed during Phase 4 after evaluating the scheduling algorithms.
+One tradeoff I made was prioritizing important tasks instead of always choosing the earliest tasks first. This means a lower-priority task might get skipped if there is not enough time available.
+
+I think this makes sense because the main goal of PawPal+ is to help owners take care of their pets' most important needs. I also decided to warn users about overlapping tasks instead of automatically changing their scheduled times. This keeps the system simple and lets the owner decide how to handle conflicts.
 
 ---
 
